@@ -26,4 +26,13 @@ public abstract class Contact {
     public void addEmail(String email) { this.emails.add(email); }
 
     public abstract String getContactType(); // Abstraction
+    
+ // UC-05: toString() override for display formatting
+    @Override
+    public String toString() {
+        return String.format(
+            "ID: %s | Type: %s | Name: %s\nPhones: %s\nEmails: %s",
+            id, getContactType(), name, phoneNumbers, emails
+        ); 
+    }
 }
