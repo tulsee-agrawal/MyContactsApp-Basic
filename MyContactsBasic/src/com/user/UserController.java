@@ -144,6 +144,23 @@ public class UserController {
         }
         return false;
     }
+    public int bulkDeleteByNames(User user, List<String> namesToDelete) {
+        int count = 0;
+        Iterator<Contact> it = user.getMyContacts().iterator(); // Iterating through objects
+
+        while (it.hasNext()) {
+            Contact contact = it.next();
+            // Check if current contact name is in our "target" list
+            for (String targetName : namesToDelete) {
+                if (contact.getName().equalsIgnoreCase(targetName.trim())) {
+                    it.remove(); // Basic object manipulation (removal)
+                    count++;
+                    break; // Move to next contact once deleted
+                }
+            }
+        }
+        return count;
+    }
     
 }
 
