@@ -1,9 +1,9 @@
 /**
  * User Contact Management
- * User can now delete multiple contacts
+ * User can now search for contacts
  *
  * @author Tulsee Agrawal
- * @version 8.0
+ * @version 9.0
  */
 
 package com.main;
@@ -12,6 +12,7 @@ import com.user.UserController;
 import com.user.UserType;
 import com.user.User;
 import com.auth.*;
+import com.search.*;
 import java.util.Scanner;
 
 public class Main {
@@ -54,7 +55,8 @@ public class Main {
                 System.out.println("5. Edit Contact");
                 System.out.println("6. Delete Contact");
                 System.out.println("7. Bulk Delete by Name");
-                System.out.println("8. Logout");
+                System.out.println("8. Search Contacts");
+                System.out.println("9. Logout");
                 System.out.print("Choice: ");
                 String choice = sc.nextLine();
 
@@ -137,8 +139,16 @@ public class Main {
                     } else {
                         System.out.println("No names entered.");
                     }
+                } else if (choice.equals("8")) {
+                    System.out.println("Search by: 1. Name | 2. Phone");
+                    String type = sc.nextLine();
+                    System.out.print("Enter search term: ");
+                    String query = sc.nextLine();
+
+                    SearchCriteria criteria = type.equals("2") ? new PhoneSearch() : new NameSearch();
+                    userCtrl.performSearch(sessionUser, criteria, query);
                 }
-                else if (choice.equals("8")) {
+                else if (choice.equals("9")) {
                     sessionUser = null; // Logout
                     System.out.println("Logged out.");
                 }

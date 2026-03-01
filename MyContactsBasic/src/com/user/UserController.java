@@ -1,7 +1,7 @@
 package com.user;
 
 import com.contacts.*;
-
+import com.search.*;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.*;
@@ -161,6 +161,16 @@ public class UserController {
         }
         return count;
     }
-    
+    public void performSearch(User user, SearchCriteria criteria, String query) {
+        List<Contact> results = criteria.search(user.getMyContacts(), query);
+        if (results.isEmpty()) {
+            System.out.println("No contacts found matching: " + query);
+        } else {
+            System.out.println("--- Search Results ---");
+            for (Contact c : results) {
+                System.out.println(c);
+            }
+        }
+    }
 }
 
