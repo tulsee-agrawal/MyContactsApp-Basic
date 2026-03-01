@@ -1,4 +1,6 @@
 package com.user;
+import com.contacts.*;
+import java.util.*;
 
 public class User {
     private String name;
@@ -37,5 +39,12 @@ public class User {
     // Security best practice: Hashing is handled internally
     public void updatePassword(String newHashedPassword) {
         this.hashedPassword = newHashedPassword;
+    }
+    private List<Contact> myContacts = new ArrayList<>();
+
+    public List<Contact> getMyContacts() { return myContacts; }
+
+    public void addContact(Contact contact) {
+        this.myContacts.add(contact);
     }
 }
