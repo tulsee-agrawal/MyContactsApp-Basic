@@ -58,7 +58,15 @@ public abstract class Contact {
     public Set<Tag> getTags() {
         return tags;
     }
-
+    public void removeTag(String tagName) {
+        // Basic collection handling using loops
+        Iterator<Tag> it = tags.iterator();
+        while (it.hasNext()) {
+            if (it.next().getTagName().equalsIgnoreCase(tagName.trim())) {
+                it.remove(); // Java Concept: remove()
+            }
+        }
+    }
     public void addTag(Tag tag) {
         this.tags.add(tag); // Automatically handles uniqueness via hashCode/equals
     }

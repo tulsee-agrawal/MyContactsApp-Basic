@@ -3,7 +3,7 @@
  * User can now manage and create tags
  *
  * @author Tulsee Agrawal
- * @version 11.0
+ * @version 12.0
  */
 
 package com.main;
@@ -60,7 +60,8 @@ public class Main {
                 System.out.println("8. Search Contacts");
                 System.out.println("9. Filter/Sort Contacts");
                 System.out.println("10. Add Tag to Contact");
-                System.out.println("11. Logout");
+                System.out.println("11. Manage Contact Tags");
+                System.out.println("12. Logout");
                 System.out.print("Choice: ");
                 String choice = sc.nextLine();
 
@@ -170,8 +171,22 @@ public class Main {
                     String tName = sc.nextLine();
                     
                     System.out.println(userCtrl.addTagToContact(sessionUser, cid, tName));
+                } else if (choice.equals("11")) {
+                    System.out.print("Enter Contact ID: ");
+                    String cid = sc.nextLine();
+                    System.out.print("1. Add Tag | 2. Remove Tag: ");
+                    String tagOp = sc.nextLine();
+                    System.out.print("Enter Tag Name: ");
+                    String tName = sc.nextLine();
+
+                    boolean isAdding = tagOp.equals("1");
+                    String result = userCtrl.manageTag(sessionUser, cid, tName, isAdding);
+                    System.out.println(result);
+                    
+                    // Immediately show the contact to view the updated tags
+                    userCtrl.viewContactDetails(sessionUser, cid); 
                 }
-                else if (choice.equals("11")) {
+                else if (choice.equals("12")) {
                     sessionUser = null; // Logout
                     System.out.println("Logged out.");
                 }

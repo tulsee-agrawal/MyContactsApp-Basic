@@ -200,5 +200,19 @@ public class UserController {
         }
         return "Error: Contact not found.";
     }
+    public String manageTag(User user, String contactId, String tagName, boolean isAdding) {
+        for (Contact c : user.getMyContacts()) { // Loop for collection handling
+            if (c.getId().equalsIgnoreCase(contactId)) {
+                if (isAdding) {
+                    c.addTag(new Tag(tagName));
+                    return "Tag added.";
+                } else {
+                    c.removeTag(tagName);
+                    return "Tag removed.";
+                }
+            }
+        }
+        return "Contact not found.";
+    }
 }
 
