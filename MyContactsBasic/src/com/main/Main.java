@@ -1,9 +1,9 @@
 /**
- * User Authentication
- * It checks whether the user is registered and does user authentication
+ * User Profile Management
+ * user updates profile information, changes password or manages preferences
  *
  * @author Tulsee Agrawal
- * @version 2.0
+ * @version 3.0
  */
 
 package com.main;
@@ -20,46 +20,49 @@ public class Main {
         Authentication auth = new BasicAuth();
         Scanner sc = new Scanner(System.in);
 
+        User sessionUser = null; 
+
         while (true) {
-            System.out.println("\n--- CONTACTS APP MENU ---");
-            System.out.println("1. Register\n2. Login\n3. Exit");
-            System.out.print("Choice: ");
-            String choice = sc.nextLine();
+            if (sessionUser == null) {
+                System.out.println("\n--- CONTACTS APP ---");
+                System.out.println("1. Register\n2. Login\n3. Exit");
+                System.out.print("Choice: ");
+                String choice = sc.nextLine();
 
-            if (choice.equals("1")) {
-                System.out.print("Enter Name: ");
-                String name = sc.nextLine();
+                if (choice.equals("1")) {
+                    System.out.print("Name: "); String n = sc.nextLine();
+                    System.out.print("Email: "); String e = sc.nextLine();
+                    System.out.print("Pass: "); String p = sc.nextLine();
+                    System.out.print("Phone: "); String ph = sc.nextLine();
+                    System.out.println(userCtrl.register(n, e, p, ph, UserType.FREE));
 
-                String email = "";
-                while (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-                    System.out.print("Enter Email (valid format): ");
-                    email = sc.nextLine();
+                } else if (choice.equals("2")) {
+                    // Login Logic (UC-02)
+                    System.out.print("Email: "); String e = sc.nextLine();
+                    System.out.print("Password: "); String p = sc.nextLine();
+                    sessionUser = auth.authenticate(e, p); // Now updates the top-level variable
+                    
+                    if (sessionUser == null) System.out.println("Login Failed.");
+
+                } else if (choice.equals("3")) break;
+
+            } else {
+                System.out.println("\n--- WELCOME " + sessionUser.getName() + " ---");
+                System.out.println("1. Update Profile");
+                System.out.println("2. Logout");
+                System.out.print("Choice: ");
+                String choice = sc.nextLine();
+
+                if (choice.equals("1")) {
+                    // UC-03 Logic
+                    System.out.print("New Name: "); String nName = sc.nextLine();
+                    System.out.print("New Phone: "); String nPhone = sc.nextLine();
+                    System.out.println(userCtrl.updateProfile(sessionUser, nName, nPhone));
+                } else if (choice.equals("2")) {
+                    sessionUser = null; // Logout
+                    System.out.println("Logged out.");
                 }
-
-                String pwd = "";
-                while (pwd.length() < 6) {
-                    System.out.print("Enter Password (min 6 chars): ");
-                    pwd = sc.nextLine();
-                }
-
-                String ph = "";
-                while (!ph.matches("\\d{10}")) {
-                    System.out.print("Enter Phone (10 digits only): ");
-                    ph = sc.nextLine();
-                }
-
-                System.out.println(userCtrl.register(name, email, pwd, ph, UserType.FREE));
-
-            } else if (choice.equals("2")) {
-                System.out.print("Email: "); String e = sc.nextLine();
-                System.out.print("Password: "); String p = sc.nextLine();
-                User u = auth.authenticate(e, p);
-                if (u != null) {
-                    System.out.println("Login Success! Welcome " + u.getName());
-                    // Proceed to UC-04...
-                    break;
-                } else System.out.println("Invalid credentials.");
-            } else if (choice.equals("3")) break;
+            }
         }
         sc.close();
     }

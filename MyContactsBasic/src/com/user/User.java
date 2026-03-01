@@ -21,4 +21,21 @@ public class User {
     public String getHashPwd() { return hashedPassword; } 
     public String getPhoneNumber() { return phoneNumber; }
     public UserType getType() { return type; }
+    
+    public void setName(String name) {
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name;
+        }
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber.matches("\\d{10}")) {
+            this.phoneNumber = phoneNumber;
+        }
+    }
+
+    // Security best practice: Hashing is handled internally
+    public void updatePassword(String newHashedPassword) {
+        this.hashedPassword = newHashedPassword;
+    }
 }

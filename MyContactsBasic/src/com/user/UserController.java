@@ -50,5 +50,26 @@ public class UserController {
             return password;
         }
     }
+    public String updateProfile(User user, String newName, String newPhone) {
+        if (newName.isEmpty() || !newPhone.matches("\\d{10}")) {
+            return "Error: Invalid update data.";
+        }
+        user.setName(newName);
+        user.setPhoneNumber(newPhone);
+        return "Profile updated successfully!";
+    }
+
+    public String changePassword(User user, String oldPass, String newPass) {
+        // Verify old password first
+        if (!user.getHashPwd().equals(hashPassword(oldPass))) {
+            return "Error: Old password does not match.";
+        }
+        if (newPass.length() < 6) {
+            return "Error: New password too short.";
+        }
+        
+        user.updatePassword(hashPassword(newPass));
+        return "Password changed successfully!";
+    }
 }
 
