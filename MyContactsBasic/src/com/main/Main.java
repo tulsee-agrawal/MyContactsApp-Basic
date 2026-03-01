@@ -1,9 +1,9 @@
 /**
  * User Contact Management
- * User can edit Contacts
+ * User can now delete Contacts
  *
  * @author Tulsee Agrawal
- * @version 6.0
+ * @version 7.0
  */
 
 package com.main;
@@ -51,8 +51,9 @@ public class Main {
                 System.out.println("2. Create Contact");
                 System.out.println("3. List All Contacts");
                 System.out.println("4. View Contact Details");
-                System.out.println("5. Edit Contact (UC-06)");
-                System.out.println("6. Logout");
+                System.out.println("5. Edit Contact");
+                System.out.println("6. Delete Contact");
+                System.out.println("7. Logout");
                 System.out.print("Choice: ");
                 String choice = sc.nextLine();
 
@@ -96,6 +97,25 @@ public class Main {
                     String result = userCtrl.editContact(sessionUser, idToEdit, nName, nPhone, nEmail);
                     System.out.println(result);
                 }else if (choice.equals("6")) {
+                    System.out.print("Enter Contact ID to delete: ");
+                    String idToDelete = sc.nextLine();
+                    
+                    // Confirmation Dialog
+                    System.out.print("Are you sure you want to delete this contact? (y/n): ");
+                    String confirm = sc.nextLine();
+                    
+                    if (confirm.equalsIgnoreCase("y")) {
+                        boolean success = userCtrl.deleteContact(sessionUser, idToDelete);
+                        if (success) {
+                            System.out.println("Contact deleted successfully.");
+                        } else {
+                            System.out.println("Error: Contact ID not found.");
+                        }
+                    } else {
+                        System.out.println("Deletion cancelled.");
+                    }
+                }
+                else if (choice.equals("7")) {
                     sessionUser = null; // Logout
                     System.out.println("Logged out.");
                 }
