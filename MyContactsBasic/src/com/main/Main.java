@@ -1,9 +1,9 @@
 /**
  * User Contact Management
- * User can view Contacts
+ * User can edit Contacts
  *
  * @author Tulsee Agrawal
- * @version 5.0
+ * @version 6.0
  */
 
 package com.main;
@@ -51,7 +51,8 @@ public class Main {
                 System.out.println("2. Create Contact");
                 System.out.println("3. List All Contacts");
                 System.out.println("4. View Contact Details");
-                System.out.println("5. Logout");
+                System.out.println("5. Edit Contact (UC-06)");
+                System.out.println("6. Logout");
                 System.out.print("Choice: ");
                 String choice = sc.nextLine();
 
@@ -82,6 +83,19 @@ public class Main {
                     String idToView = sc.nextLine();
                     userCtrl.viewContactDetails(sessionUser, idToView);
                 }else if (choice.equals("5")) {
+                    System.out.print("Enter Contact ID to edit: ");
+                    String idToEdit = sc.nextLine();
+                    
+                    System.out.print("New Name: ");
+                    String nName = sc.nextLine();
+                    System.out.print("New Phone: ");
+                    String nPhone = sc.nextLine();
+                    System.out.print("New Email: ");
+                    String nEmail = sc.nextLine();
+
+                    String result = userCtrl.editContact(sessionUser, idToEdit, nName, nPhone, nEmail);
+                    System.out.println(result);
+                }else if (choice.equals("6")) {
                     sessionUser = null; // Logout
                     System.out.println("Logged out.");
                 }

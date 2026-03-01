@@ -1,6 +1,7 @@
 package com.user;
 
 import com.contacts.*;
+
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.*;
@@ -106,6 +107,28 @@ public class UserController {
             System.out.println(found.get());
         } else {
             System.out.println("Error: Contact with ID " + contactId + " not found.");
+        }
+    }
+    // Edit Contact
+    public String editContact(User user, String contactId, String newName, String newPhone, String newEmail) {
+        Optional<Contact> found = user.getMyContacts().stream()
+            .filter(c -> c.getId().equalsIgnoreCase(contactId))
+            .findFirst();
+
+        if (found.isPresent()) {
+            Contact contact = found.get();
+           
+            contact.setName(newName);
+            
+            contact.getPhoneNumbers().clear();
+            contact.addPhone(newPhone);
+            
+            contact.getEmails().clear();
+            contact.addEmail(newEmail);
+            
+            return "Contact '" + contactId + "' updated successfully!";
+        } else {
+            return "Error: Contact ID not found.";
         }
     }
     

@@ -35,4 +35,23 @@ public abstract class Contact {
             id, getContactType(), name, phoneNumbers, emails
         ); 
     }
+ // UC-06: Setters with Validation
+    public void setName(String name) {
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name;
+        }
+    }
+
+    // Replace the entire list to ensure data integrity
+    public void setPhoneNumbers(List<String> phoneNumbers) {
+        if (phoneNumbers != null && !phoneNumbers.isEmpty()) {
+            this.phoneNumbers = new ArrayList<>(phoneNumbers); // Defensive copying
+        }
+    }
+
+    public void setEmails(List<String> emails) {
+        if (emails != null && !emails.isEmpty()) {
+            this.emails = new ArrayList<>(emails); // Defensive copying
+        }
+    }
 }
