@@ -1,63 +1,66 @@
+/**
+ * User Authentication
+ * It checks whether the user is registered and does user authentication
+ *
+ * @author Tulsee Agrawal
+ * @version 2.0
+ */
+
 package com.main;
 
 import com.user.UserController;
 import com.user.UserType;
 import com.user.User;
+import com.auth.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         UserController userCtrl = UserController.getInstance();
-        Scanner scanner = new Scanner(System.in);
+        Authentication auth = new BasicAuth();
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println("=== UC-01: User Registration ===");
+        while (true) {
+            System.out.println("\n--- CONTACTS APP MENU ---");
+            System.out.println("1. Register\n2. Login\n3. Exit");
+            System.out.print("Choice: ");
+            String choice = sc.nextLine();
 
-        // --- Validated Input ---
-        String name = "";
-        while (name.isEmpty()) {
-            System.out.print("Enter Name: ");
-            name = scanner.nextLine().trim();
+            if (choice.equals("1")) {
+                System.out.print("Enter Name: ");
+                String name = sc.nextLine();
+
+                String email = "";
+                while (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                    System.out.print("Enter Email (valid format): ");
+                    email = sc.nextLine();
+                }
+
+                String pwd = "";
+                while (pwd.length() < 6) {
+                    System.out.print("Enter Password (min 6 chars): ");
+                    pwd = sc.nextLine();
+                }
+
+                String ph = "";
+                while (!ph.matches("\\d{10}")) {
+                    System.out.print("Enter Phone (10 digits only): ");
+                    ph = sc.nextLine();
+                }
+
+                System.out.println(userCtrl.register(name, email, pwd, ph, UserType.FREE));
+
+            } else if (choice.equals("2")) {
+                System.out.print("Email: "); String e = sc.nextLine();
+                System.out.print("Password: "); String p = sc.nextLine();
+                User u = auth.authenticate(e, p);
+                if (u != null) {
+                    System.out.println("Login Success! Welcome " + u.getName());
+                    // Proceed to UC-04...
+                    break;
+                } else System.out.println("Invalid credentials.");
+            } else if (choice.equals("3")) break;
         }
-
-        String email = "";
-        while (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            System.out.print("Enter Email: ");
-            email = scanner.nextLine().trim();
-        }
-
-        String password = "";
-        while (password.length() < 6) {
-            System.out.print("Enter Password (min 6 chars): ");
-            password = scanner.nextLine();
-        }
-
-        String phone = "";
-        while (!phone.matches("\\d{10}")) {
-            System.out.print("Enter Phone (10 digits): ");
-            phone = scanner.nextLine().trim();
-        }
-
-        UserType type = null;
-        while (type == null) {
-            System.out.print("Enter User Type (1: FREE, 2: PREMIUM): ");
-            String choice = scanner.nextLine();
-            if (choice.equals("1")) type = UserType.FREE;
-            else if (choice.equals("2")) type = UserType.PREMIUM;
-        }
-
-        // --- Process ---
-        String result = userCtrl.register(name, email, password, phone, type);
-        System.out.println("\nResult: " + result);
-
-        // --- Verification ---
-        User savedUser = userCtrl.getUserDatabase().get(email.toLowerCase());
-        if (savedUser != null) {
-            System.out.println("\n--- Verification ---");
-            System.out.println("Email: " + savedUser.getEmail());
-            System.out.println("Hash: " + savedUser.getHashPwd());
-            System.out.println("Type: " + savedUser.getType());
-        }
-        
-        scanner.close();
+        sc.close();
     }
 }

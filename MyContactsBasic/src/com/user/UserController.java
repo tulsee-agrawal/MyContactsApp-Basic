@@ -34,7 +34,11 @@ public class UserController {
 
         return "Success: Account created for " + name;
     }
-
+    public User login(String email, String password) {
+        User user = userDatabase.get(email.toLowerCase());
+        if (user != null && user.getHashPwd().equals(hashPassword(password))) return user;
+        return null;
+    }
     private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
