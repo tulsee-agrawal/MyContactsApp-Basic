@@ -1,7 +1,7 @@
 package com.contacts;
-
+import com.tag.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.UUID;
 
 public abstract class Contact {
@@ -9,7 +9,8 @@ public abstract class Contact {
     private String name;
     private List<String> phoneNumbers = new ArrayList<>(); // Composition
     private List<String> emails = new ArrayList<>();
-
+    private Set<Tag> tags = new HashSet<>();
+    
     public Contact(String name) {
         this.id = UUID.randomUUID().toString(); // UUID for unique identification
         this.name = name;
@@ -53,5 +54,12 @@ public abstract class Contact {
         if (emails != null && !emails.isEmpty()) {
             this.emails = new ArrayList<>(emails); // Defensive copying
         }
+    }
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag); // Automatically handles uniqueness via hashCode/equals
     }
 }

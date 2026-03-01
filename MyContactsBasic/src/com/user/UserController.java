@@ -3,6 +3,7 @@ package com.user;
 import com.contacts.*;
 import com.search.*;
 import com.filter.*;
+import com.tag.*;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.*;
@@ -186,6 +187,18 @@ public class UserController {
         
         // Display the newly sorted list
         listContacts(user); 
+    }
+    public String addTagToContact(User user, String contactId, String tagName) {
+        Optional<Contact> found = user.getMyContacts().stream()
+            .filter(c -> c.getId().equalsIgnoreCase(contactId))
+            .findFirst();
+
+        if (found.isPresent()) {
+            Tag newTag = new Tag(tagName);
+            found.get().addTag(newTag); // Relationship between Contact and Tag
+            return "Tag '" + tagName + "' added to " + found.get().getName();
+        }
+        return "Error: Contact not found.";
     }
 }
 

@@ -1,9 +1,9 @@
 /**
  * User Contact Management
- * User can now filter for contacts
+ * User can now manage and create tags
  *
  * @author Tulsee Agrawal
- * @version 10.0
+ * @version 11.0
  */
 
 package com.main;
@@ -59,7 +59,8 @@ public class Main {
                 System.out.println("7. Bulk Delete by Name");
                 System.out.println("8. Search Contacts");
                 System.out.println("9. Filter/Sort Contacts");
-                System.out.println("10. Logout");
+                System.out.println("10. Add Tag to Contact");
+                System.out.println("11. Logout");
                 System.out.print("Choice: ");
                 String choice = sc.nextLine();
 
@@ -162,8 +163,15 @@ public class Main {
                     }
                     
                     userCtrl.filterContacts(sessionUser, filter); // Loops with conditions
+                } else if (choice.equals("10")) {
+                    System.out.print("Enter Contact ID: ");
+                    String cid = sc.nextLine();
+                    System.out.print("Enter Tag Name (e.g. Family, Work): ");
+                    String tName = sc.nextLine();
+                    
+                    System.out.println(userCtrl.addTagToContact(sessionUser, cid, tName));
                 }
-                else if (choice.equals("10")) {
+                else if (choice.equals("11")) {
                     sessionUser = null; // Logout
                     System.out.println("Logged out.");
                 }
