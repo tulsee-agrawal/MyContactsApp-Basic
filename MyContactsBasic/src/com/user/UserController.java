@@ -2,9 +2,11 @@ package com.user;
 
 import com.contacts.*;
 import com.search.*;
+import com.filter.*;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.*;
+
 
 public class UserController {
     private static UserController instance;
@@ -171,6 +173,19 @@ public class UserController {
                 System.out.println(c);
             }
         }
+    }
+    public void filterContacts(User user, ContactFilter filter) {
+        if (user.getMyContacts().isEmpty()) {
+            System.out.println("No contacts to filter.");
+            return;
+        }
+        
+        // Apply the chosen filter logic
+        filter.applyFilter(user.getMyContacts());
+        System.out.println("Filter applied successfully.");
+        
+        // Display the newly sorted list
+        listContacts(user); 
     }
 }
 
